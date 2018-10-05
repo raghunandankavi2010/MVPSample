@@ -72,7 +72,7 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         itemView.title.text = item.title
         itemView.description.text = item.description
-        
+
         if (item.imageHref != null) {
             GlideApp
                     .with(itemView.context)
