@@ -33,7 +33,7 @@ class FetchFeed {
                 .build()
 
         retrofit = Retrofit.Builder()
-                .baseUrl("https://api.myjson.com/")
+                .baseUrl("https://dl.dropboxusercontent.com/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
