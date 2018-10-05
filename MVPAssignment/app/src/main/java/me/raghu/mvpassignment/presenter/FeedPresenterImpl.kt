@@ -27,19 +27,23 @@ class FeedPresenterImpl: FeedMvp.Presenter {
 
     @SuppressLint("CheckResult")
     override fun fetchData() {
-         feedView?.showProgress(true)
+
+
+        var feedVal =Feed()
          disposable.add(fetchFeed.fetchFeed()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<Feed>() {
                     override fun onSuccess(feed: Feed) {
-                        feedView?.showProgress(false)
-                        feedView?.updateList(feed)
+                        feedVal = feed
+                        feedView?.updateList(feedVal)
 
                     }
 
                     override fun onError(e: Throwable) {
-                        feedView?.showProgress(false)
+
+                        feedView?.updateList(feedVal)
+
                         e.printStackTrace()
                     }
                 }))
