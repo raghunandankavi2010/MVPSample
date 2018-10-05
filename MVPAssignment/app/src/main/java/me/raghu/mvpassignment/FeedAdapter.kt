@@ -56,9 +56,9 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                     .load(item.imageHref)
                     .into(itemView.imageView)
         } else {
-            itemView.imageView.visibility = View.GONE
-           /* GlideApp
-                   .with(itemView.context).clear(itemView.imageView)*/
+           /// itemView.imageView.visibility = View.GONE
+            GlideApp
+                   .with(itemView.context).clear(itemView.imageView)
 
         }
     }
