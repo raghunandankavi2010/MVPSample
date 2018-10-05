@@ -30,13 +30,11 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
         notifyDataSetChanged()
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+    override fun getItemCount(): Int = items.size
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong() // not a good idea. ideally response should have unique id
-    }
+
+    override fun getItemId(position: Int): Long = position.toLong() // not a good idea. ideally response should have unique id
+
 
     // Inflates the item views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
