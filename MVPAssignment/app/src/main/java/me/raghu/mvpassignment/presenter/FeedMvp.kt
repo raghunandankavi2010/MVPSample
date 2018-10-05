@@ -1,12 +1,13 @@
 package me.raghu.mvpassignment.presenter
 
-import me.raghu.mvpassignment.models.Feed
+import me.raghu.mvpassignment.models.Resource
+
 
 interface FeedMvp {
 
     interface View {
 
-        fun updateList(feed: Feed)
+        fun <T> updateList(feed: Resource<T>)
     }
 
     interface Presenter {

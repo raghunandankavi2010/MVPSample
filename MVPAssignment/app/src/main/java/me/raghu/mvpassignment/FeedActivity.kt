@@ -6,15 +6,16 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
-import me.raghu.mvpassignment.models.Feed
+
 import me.raghu.mvpassignment.presenter.FeedMvp
 import me.raghu.mvpassignment.presenter.FeedPresenterImpl
 import android.support.test.espresso.idling.CountingIdlingResource
-import android.text.TextUtils
-import kotlinx.android.synthetic.main.activity_main.view.*
+import me.raghu.mvpassignment.models.Feed
+import me.raghu.mvpassignment.models.Resource
 
 
 class FeedActivity : AppCompatActivity(),FeedMvp.View {
+
 
     private var presenter: FeedPresenterImpl? =null
     private lateinit  var feedAdapter: FeedAdapter
@@ -24,23 +25,22 @@ class FeedActivity : AppCompatActivity(),FeedMvp.View {
     }
 
     var mIdlingRes = CountingIdlingResource("FeedActivity")
-    override fun updateList(feed: Feed) {
 
-
-        if(TextUtils.isEmpty(feed.title)){
+    override fun <T> updateList(resource:Resource<T>) {
+       if(resource.data==null){
             showProgress(false)
             errorText.visibility = View.VISIBLE
             errorText.text ="Something Wrong!.No data to display"
         }else{
             showProgress(false)
             recyclerView.visibility = View.VISIBLE
+            val feed = resource.data as Feed
             supportActionBar?.title = feed.title
             feedAdapter.addItems(feed.rows!!)
         }
         mIdlingRes.decrement()
 
     }
-
 
 
     fun showProgress(boolean: Boolean) {
