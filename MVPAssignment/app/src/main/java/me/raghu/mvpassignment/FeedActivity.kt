@@ -10,6 +10,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import me.raghu.mvpassignment.presenter.FeedMvp
 import me.raghu.mvpassignment.presenter.FeedPresenterImpl
 import android.support.test.espresso.idling.CountingIdlingResource
+import android.support.v7.widget.DividerItemDecoration
+import android.util.Log
 import me.raghu.mvpassignment.models.Feed
 import me.raghu.mvpassignment.models.Resource
 
@@ -36,7 +38,8 @@ class FeedActivity : AppCompatActivity(),FeedMvp.View {
             recyclerView.visibility = View.VISIBLE
             val feed = resource.data as Feed
             supportActionBar?.title = feed.title
-            feedAdapter.addItems(feed.rows!!)
+            val filterList = feed.rows!!.filter {  it.title!=null  }
+            feedAdapter.addItems(filterList)
         }
         mIdlingRes.decrement()
 
@@ -59,6 +62,7 @@ class FeedActivity : AppCompatActivity(),FeedMvp.View {
         setContentView(R.layout.activity_main)
         feedAdapter = FeedAdapter(this@FeedActivity)
         recyclerView.setHasFixedSize(true)
+        recyclerView.addItemDecoration(DividerItemDecoration(this@FeedActivity,1))
         recyclerView.layoutManager = LinearLayoutManager(this@FeedActivity)
         recyclerView.adapter = feedAdapter
         setSupportActionBar(toolbar)
