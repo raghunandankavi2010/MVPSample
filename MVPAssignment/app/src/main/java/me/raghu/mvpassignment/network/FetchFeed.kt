@@ -11,14 +11,9 @@ import java.util.concurrent.TimeUnit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-
-
-
-
-
 class FetchFeed {
 
-    private lateinit var retrofit:Retrofit
+    private var retrofit:Retrofit
 
     init {
 

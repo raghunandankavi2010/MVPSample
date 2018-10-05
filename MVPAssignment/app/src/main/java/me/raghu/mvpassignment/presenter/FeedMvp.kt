@@ -1,13 +1,12 @@
 package me.raghu.mvpassignment.presenter
 
-import io.reactivex.Single
 import me.raghu.mvpassignment.models.Feed
 
 interface FeedMvp {
 
     interface View {
 
-        fun updateList(feed: Single<Feed>)
+        fun updateList(feed: Feed)
         fun showProgress(boolean: Boolean)
     }
 
