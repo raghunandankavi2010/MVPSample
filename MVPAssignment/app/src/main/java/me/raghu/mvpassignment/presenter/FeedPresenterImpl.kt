@@ -3,7 +3,8 @@ package me.raghu.mvpassignment.presenter
 
 class FeedPresenterImpl: FeedMvp.Presenter {
 
-    private lateinit var feedView: FeedMvp.View
+    private var feedView: FeedMvp.View? = null
+    
     override fun attachView(view: FeedMvp.View) {
         feedView = view
 
@@ -14,7 +15,7 @@ class FeedPresenterImpl: FeedMvp.Presenter {
     }
 
     override fun fetchData() {
-     feedView.showProgress(true)
+     feedView?.showProgress(true)
 
 
     }
