@@ -16,3 +16,7 @@ If url is null we can have different view types. One for text with image and the
 
 The other problem is DNS and 404 not found for image urls. We need a valid url. Invalid urls needs to be fixed in the json response itself. Read https://github.com/bumptech/glide/issues/1235#issuecomment-292778822
 
+# ScreenShot
+
+Sample screen shot [Screenshot](https://github.com/raghunandankavi2010/MVPMobileAssignment/blob/master/device-2018-10-06-110824.png).
+
