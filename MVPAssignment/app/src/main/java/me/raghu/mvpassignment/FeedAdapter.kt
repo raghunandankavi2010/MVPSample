@@ -2,20 +2,19 @@ package me.raghu.mvpassignment
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.row.view.*
 import me.raghu.mvpassignment.models.Row
 
+
 class FeedAdapter(private val context: Context, private val items : MutableList<Row> = ArrayList()) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
-    /*init {
+    init {
         setHasStableIds(true)
-    }*/
+    }
 
     companion object {
         const val TYPE_TEXT = 0
@@ -31,12 +30,11 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
     override fun getItemCount(): Int = items.size
 
 
-    //override fun getItemId(position: Int): Long = items[position].title!!.hashCode().toLong()
+    override fun getItemId(position: Int): Long = items[position].title!!.hashCode().toLong()
 
     override fun getItemViewType(position: Int): Int {
-        return if (items[position].imageHref!=null) TYPE_TEXT_IMAGE else TYPE_TEXT
+        return if (items[position].imageHref != null) TYPE_TEXT_IMAGE else TYPE_TEXT
     }
-
 
 
     // Inflates the item views
@@ -53,18 +51,18 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         when (holder.itemViewType) {
-           TYPE_TEXT_IMAGE -> {
-               holder as ViewHolder
-               holder.bind(items[position])
-           }
+            TYPE_TEXT_IMAGE -> {
+                holder as ViewHolder
+                holder.bind(items[position])
+            }
             TYPE_TEXT -> {
                 holder as TextHolder
                 holder.bind(items[position])
             }
         }
-
     }
 }
+
 
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -78,6 +76,8 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                     .with(itemView.context)
                     .load(item.imageHref)
                     .into(itemView.imageView)
+
+
         } else {
             GlideApp
                    .with(itemView.context).clear(itemView.imageView)
