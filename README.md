@@ -18,5 +18,5 @@ The other problem is DNS and 404 not found for image urls. We need a valid url. 
 
 # ScreenShot
 
-Sample screen shot [Screenshot](https://github.com/raghunandankavi2010/MVPMobileAssignment/blob/master/device-2018-10-06-110824.png).
+![Sample Screenshot](https://github.com/raghunandankavi2010/MVPMobileAssignment/blob/master/device-2018-10-06-110824.png)
 
