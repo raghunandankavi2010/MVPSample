@@ -1,6 +1,8 @@
 package me.raghu.mvpassignment
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -75,6 +77,7 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             GlideApp
                     .with(itemView.context)
                     .load(item.imageHref)
+                    .error(R.drawable.error)
                     .into(itemView.imageView)
 
 
