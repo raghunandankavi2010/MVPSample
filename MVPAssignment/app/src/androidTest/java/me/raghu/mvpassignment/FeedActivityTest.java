@@ -33,14 +33,13 @@ public class FeedActivityTest {
     public void testIfRecyclerViewIsVisible() {
 
         CountingIdlingResource componentIdlingResource =  mActivityRule.getActivity().getIdlingResourceInTest();
-
         IdlingRegistry.getInstance().register(componentIdlingResource);
-
 
         onView(withId(R.id.recyclerView))
                 .check(matches(isDisplayed()));
-
         onView(withId(R.id.recyclerView)).check(new RecyclerViewItemCountAssertion(14));
+
+        IdlingRegistry.getInstance().unregister(componentIdlingResource);
 
     }
 
@@ -51,14 +50,15 @@ public class FeedActivityTest {
     public void testIfErrorTextISVisible() {
 
         CountingIdlingResource componentIdlingResource =  mActivityRule.getActivity().getIdlingResourceInTest();
-
         IdlingRegistry.getInstance().register(componentIdlingResource);
 
 
         onView(withId(R.id.errorText))
                 .check(matches(isDisplayed()));
         onView(withId(R.id.errorText))
-               .check(matches(withText(containsString("Something Wrong!.No data to display"))));
+               .check(matches(withText(containsString(mActivityRule.getActivity().getResources().getString(R.string.error)))));
+
+        IdlingRegistry.getInstance().unregister(componentIdlingResource);
 
     }
 }

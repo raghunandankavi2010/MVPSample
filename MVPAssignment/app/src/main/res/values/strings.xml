@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MVPAssignment</string>
+    <string name="error">Something Wrong!.No data to display</string>
 </resources>

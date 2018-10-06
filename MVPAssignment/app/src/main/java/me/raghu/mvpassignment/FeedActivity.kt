@@ -26,14 +26,14 @@ class FeedActivity : AppCompatActivity(),FeedMvp.View {
         return mIdlingRes
     }
 
-    var mIdlingRes = CountingIdlingResource("FeedActivity")
+    private var mIdlingRes = CountingIdlingResource("FeedActivity")
 
     override fun <T> updateList(resource:Resource<T>) {
-       if(resource.data==null){
+       if(resource.data==null) {
             showProgress(false)
             errorText.visibility = View.VISIBLE
-            errorText.text ="Something Wrong!.No data to display"
-        }else{
+            errorText.text =getString(R.string.error)
+        } else {
             showProgress(false)
             recyclerView.visibility = View.VISIBLE
             val feed = resource.data as Feed
@@ -67,7 +67,6 @@ class FeedActivity : AppCompatActivity(),FeedMvp.View {
         recyclerView.adapter = feedAdapter
         setSupportActionBar(toolbar)
         attachPresenter()
-
     }
 
     private fun attachPresenter() {
