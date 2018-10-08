@@ -20,7 +20,7 @@ import me.raghu.mvpassignment.models.Resource
 class FeedActivity : AppCompatActivity(),FeedMvp.View {
 
 
-    private var presenter: FeedPresenterImpl? =null
+    private var presenter: FeedPresenterImpl? = null
     private lateinit  var feedAdapter: FeedAdapter
 
     fun getIdlingResourceInTest(): CountingIdlingResource {
@@ -88,20 +88,12 @@ class FeedActivity : AppCompatActivity(),FeedMvp.View {
     }
 
     private fun attachPresenter() {
-        presenter = lastNonConfigurationInstance as? FeedPresenterImpl
 
-        if (presenter == null) {
-            presenter =  FeedPresenterImpl()
-            presenter?.attachView(this@FeedActivity)
-            mIdlingRes.increment()
-            presenter?.fetchData()
-            showProgress(true)
-        }
-
-    }
-
-    override fun onRetainCustomNonConfigurationInstance(): FeedPresenterImpl? {
-        return presenter
+        presenter  = FeedPresenterImpl()
+        presenter?.attachView(this@FeedActivity)
+        mIdlingRes.increment()
+        presenter?.fetchData()
+        showProgress(true)
     }
 
     override fun onDestroy() {

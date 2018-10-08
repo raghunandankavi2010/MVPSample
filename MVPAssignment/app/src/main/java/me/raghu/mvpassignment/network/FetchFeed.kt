@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class FetchFeed {
+object FetchFeed {
 
     private var retrofit:Retrofit
 
@@ -36,7 +36,8 @@ class FetchFeed {
 
     }
 
-    fun fetchFeed():Single<Feed> = retrofit.create(Api::class.java).getData()
+    val singleFeed = retrofit.create(Api::class.java).getData().cache()
+    fun fetchFeed():Single<Feed> = singleFeed
 
 
 }

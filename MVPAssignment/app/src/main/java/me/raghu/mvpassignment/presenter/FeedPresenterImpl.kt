@@ -22,7 +22,7 @@ class FeedPresenterImpl: FeedMvp.Presenter {
 
     private val disposable = CompositeDisposable()
     private var feedView: FeedMvp.View? = null
-    private var fetchFeed:FetchFeed = FetchFeed()
+    private var fetchFeed:FetchFeed = FetchFeed
 
     override fun attachView(view: FeedMvp.View) {
         feedView = view
