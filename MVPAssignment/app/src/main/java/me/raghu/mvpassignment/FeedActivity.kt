@@ -34,6 +34,7 @@ class FeedActivity : AppCompatActivity(),FeedMvp.View {
             showProgress(false)
             errorText.visibility = View.VISIBLE
             errorText.text =getString(R.string.error)
+            presenter?.cleaCache()
         } else {
             showProgress(false)
             recyclerView.visibility = View.VISIBLE

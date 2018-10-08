@@ -34,6 +34,8 @@ class FeedPresenterImpl: FeedMvp.Presenter {
         disposable.dispose()
     }
 
+    override fun cleaCache() = fetchFeed.clearCache()
+
     @SuppressLint("CheckResult")
     override fun fetchData() {
 

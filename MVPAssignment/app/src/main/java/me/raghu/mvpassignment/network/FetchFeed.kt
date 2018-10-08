@@ -36,8 +36,15 @@ object FetchFeed {
 
     }
 
-    val singleFeed = retrofit.create(Api::class.java).getData().cache()
-    fun fetchFeed():Single<Feed> = singleFeed
+    val singleFeed = retrofit.create(Api::class.java).getData()
+
+    var cacher = SingleCache<Feed>(singleFeed)
+
+    var singleFeedCached = Single.unsafeCreate(cacher)
+
+    fun fetchFeed():Single<Feed> = singleFeedCached
+
+    fun clearCache() = cacher.reset()
 
 
 }
