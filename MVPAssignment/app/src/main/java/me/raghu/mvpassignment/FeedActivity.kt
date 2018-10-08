@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import me.raghu.mvpassignment.presenter.FeedMvp
 import me.raghu.mvpassignment.presenter.FeedPresenterImpl
 import android.support.test.espresso.idling.CountingIdlingResource
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.util.Log
 import me.raghu.mvpassignment.models.Feed
@@ -41,6 +42,8 @@ class FeedActivity : AppCompatActivity(),FeedMvp.View {
             val filterList = feed.rows!!.filter {  it.title!=null  }
             feedAdapter.addItems(filterList)
         }
+        swipe_container.isRefreshing = false
+
         mIdlingRes.decrement()
 
     }
@@ -65,6 +68,21 @@ class FeedActivity : AppCompatActivity(),FeedMvp.View {
         recyclerView.addItemDecoration(DividerItemDecoration(this@FeedActivity,1))
         recyclerView.layoutManager = LinearLayoutManager(this@FeedActivity)
         recyclerView.adapter = feedAdapter
+
+        swipe_container.setOnRefreshListener {
+            // does not do anything as there is no new data
+            /** Ideally
+             * mIdlingRes.increment()
+             * presenter?.fetchData()
+             * update view and data
+            */
+            feedAdapter.getitems().clear()
+            feedAdapter.notifyDataSetChanged()
+            mIdlingRes.increment()
+            presenter?.fetchData()
+        }
+
+
         setSupportActionBar(toolbar)
         attachPresenter()
     }

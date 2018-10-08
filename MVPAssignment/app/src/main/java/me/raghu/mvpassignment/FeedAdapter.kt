@@ -21,6 +21,7 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
         const val TYPE_TEXT_IMAGE = 1
     }
 
+    fun getitems():MutableList<Row> = items
 
     fun addItems(rowList: List<Row>){
         items.addAll(rowList)
