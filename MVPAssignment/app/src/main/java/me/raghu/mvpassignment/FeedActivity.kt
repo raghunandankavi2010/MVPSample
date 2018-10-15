@@ -1,26 +1,23 @@
 package me.raghu.mvpassignment
 
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.test.espresso.idling.CountingIdlingResource
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
-
-import me.raghu.mvpassignment.presenter.FeedMvp
-import me.raghu.mvpassignment.presenter.FeedPresenterImpl
-import android.support.test.espresso.idling.CountingIdlingResource
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DividerItemDecoration
-import android.util.Log
 import me.raghu.mvpassignment.models.Feed
 import me.raghu.mvpassignment.models.Resource
+import me.raghu.mvpassignment.presenter.FeedMvp
+import me.raghu.mvpassignment.presenter.FeedPresenterImpl
 
 
 class FeedActivity : AppCompatActivity(),FeedMvp.View {
 
 
-    private var presenter: FeedPresenterImpl? = null
+    private var presenter: FeedMvp.Presenter? = null
     private lateinit  var feedAdapter: FeedAdapter
 
     fun getIdlingResourceInTest(): CountingIdlingResource {
@@ -50,7 +47,7 @@ class FeedActivity : AppCompatActivity(),FeedMvp.View {
     }
 
 
-    fun showProgress(boolean: Boolean) {
+    override fun showProgress(boolean: Boolean) {
         if (boolean) {
             recyclerView.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
@@ -71,13 +68,13 @@ class FeedActivity : AppCompatActivity(),FeedMvp.View {
         recyclerView.adapter = feedAdapter
 
         swipe_container.setOnRefreshListener {
-            // does not do anything as there is no new data
+            // does not do anything as there is no new api to refresh data
             /** Ideally
              * mIdlingRes.increment()
              * presenter?.fetchData()
              * update view and data
             */
-            feedAdapter.getitems().clear()
+            feedAdapter.getItems().clear()
             feedAdapter.notifyDataSetChanged()
             mIdlingRes.increment()
             presenter?.fetchData()

@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.row.view.*
+import me.raghu.mvpassignment.FeedAdapter.Companion.TYPE_TEXT_IMAGE
 import me.raghu.mvpassignment.models.Row
 
 
 class FeedAdapter(private val context: Context, private val items : MutableList<Row> = ArrayList()) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
 
     init {
         setHasStableIds(true)
@@ -21,7 +21,7 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
         const val TYPE_TEXT_IMAGE = 1
     }
 
-    fun getitems():MutableList<Row> = items
+    fun getItems():MutableList<Row> = items
 
     fun addItems(rowList: List<Row>){
         items.addAll(rowList)
@@ -33,11 +33,8 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
 
     override fun getItemId(position: Int): Long = items[position].title!!.hashCode().toLong()
 
-    override fun getItemViewType(position: Int): Int {
-        return if (items[position].imageHref != null) TYPE_TEXT_IMAGE else TYPE_TEXT
-    }
-
-
+    override fun getItemViewType(position: Int): Int = if (items[position].imageHref != null) TYPE_TEXT_IMAGE else TYPE_TEXT
+    
     // Inflates the item views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 

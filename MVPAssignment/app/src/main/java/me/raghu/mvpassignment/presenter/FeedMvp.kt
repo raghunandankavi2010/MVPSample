@@ -8,6 +8,8 @@ interface FeedMvp {
     interface View {
 
         fun <T> updateList(feed: Resource<T>)
+
+        fun showProgress(boolean: Boolean)
     }
 
     interface Presenter {
