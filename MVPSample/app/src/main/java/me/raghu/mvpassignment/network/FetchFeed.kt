@@ -27,12 +27,6 @@ object FetchFeed {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build()
 
-      /*  retrofit = Retrofit.Builder()
-                .baseUrl("https://dl.dropboxusercontent.com/")
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build()*/
 
         retrofit = Retrofit.Builder()
                 .baseUrl("https://dl.dropboxusercontent.com/")
@@ -43,16 +37,6 @@ object FetchFeed {
 
     }
 
-    private val singleFeed = retrofit.create(Api::class.java).getData()
-
     suspend fun fetchFeed(): Response<Feed> = retrofit.create(Api::class.java).getData().await()
-
-  /* private var cacher = SingleCache<Feed>(singleFeed)
-
-    private var singleFeedCached = Single.unsafeCreate(cacher)
-
-    fun fetchFeed():Single<Feed> = singleFeedCached
-
-    fun clearCache() = cacher.reset()*/
 
 }
