@@ -1,12 +1,12 @@
 package me.raghu.mvpassignment.network
 
-import io.reactivex.Single
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import me.raghu.mvpassignment.models.Feed
 import retrofit2.Retrofit
 import okhttp3.OkHttpClient
 
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.Response
 import java.util.concurrent.TimeUnit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -27,24 +27,32 @@ object FetchFeed {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build()
 
-        retrofit = Retrofit.Builder()
+      /*  retrofit = Retrofit.Builder()
                 .baseUrl("https://dl.dropboxusercontent.com/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()*/
+
+        retrofit = Retrofit.Builder()
+                .baseUrl("https://dl.dropboxusercontent.com/")
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .build()
 
     }
 
-    val singleFeed = retrofit.create(Api::class.java).getData()
+    private val singleFeed = retrofit.create(Api::class.java).getData()
 
-    var cacher = SingleCache<Feed>(singleFeed)
+    suspend fun fetchFeed(): Response<Feed> = retrofit.create(Api::class.java).getData().await()
 
-    var singleFeedCached = Single.unsafeCreate(cacher)
+  /* private var cacher = SingleCache<Feed>(singleFeed)
+
+    private var singleFeedCached = Single.unsafeCreate(cacher)
 
     fun fetchFeed():Single<Feed> = singleFeedCached
 
-    fun clearCache() = cacher.reset()
-
+    fun clearCache() = cacher.reset()*/
 
 }

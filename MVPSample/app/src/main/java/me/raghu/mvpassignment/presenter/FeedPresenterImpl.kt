@@ -1,18 +1,23 @@
 package me.raghu.mvpassignment.presenter
 
 import android.annotation.SuppressLint
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.observers.DisposableSingleObserver
-import io.reactivex.schedulers.Schedulers
-import me.raghu.mvpassignment.models.Feed
+import kotlinx.coroutines.experimental.CoroutineScope
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.launch
 import me.raghu.mvpassignment.models.Resource
 import me.raghu.mvpassignment.network.FetchFeed
+import kotlin.coroutines.experimental.CoroutineContext
 
 
-class FeedPresenterImpl: FeedMvp.Presenter {
+class FeedPresenterImpl: FeedMvp.Presenter, CoroutineScope {
+    private val job = Job()
 
-    private val disposable = CompositeDisposable()
+    override val coroutineContext: CoroutineContext
+    get() = Dispatchers.Main + job
+
+    private val uiScope = CoroutineScope(coroutineContext)
+
     private var feedView: FeedMvp.View? = null
     private var fetchFeed:FetchFeed = FetchFeed
 
@@ -23,28 +28,28 @@ class FeedPresenterImpl: FeedMvp.Presenter {
 
     override fun detachView() {
         feedView = null
-        disposable.dispose()
+        job.cancel()
     }
 
-    override fun cleaCache() = fetchFeed.clearCache()
+
 
     @SuppressLint("CheckResult")
     override fun fetchData() {
 
-         disposable.add(fetchFeed.fetchFeed()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSingleObserver<Feed>() {
+        uiScope.launch {
+            try {
+               val response = fetchFeed.fetchFeed()
+                if(response.isSuccessful) {
+                    val feed = response.body()
+                    feedView?.updateList(Resource.success(feed))
+                } else {
+                    feedView?.updateList(Resource.error("Something wrong",null))
+                }
 
-                    override fun onSuccess(feed: Feed) {
-                        feedView?.updateList(Resource.success(feed))
+            } catch (e: Exception) {
+                feedView?.updateList(Resource.error(e.message.toString(),null))
+            }
+        }
 
-                    }
-
-                    override fun onError(e: Throwable) {
-                        feedView?.updateList(Resource.error("Something wrong",null))
-                        e.printStackTrace()
-                    }
-                }))
     }
 }

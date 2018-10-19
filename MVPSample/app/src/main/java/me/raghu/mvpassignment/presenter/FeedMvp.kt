@@ -20,8 +20,5 @@ interface FeedMvp {
 
         fun fetchData()
 
-        fun cleaCache()
-
-
     }
 }
