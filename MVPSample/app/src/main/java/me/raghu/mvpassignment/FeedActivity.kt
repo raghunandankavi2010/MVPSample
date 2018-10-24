@@ -44,27 +44,10 @@ class FeedActivity : AppCompatActivity(),FeedMvp.View {
                 errorText.text = getString(R.string.error)
             }
         }
-    }
-
-/*    override fun <T> updateList(resource: Result<Feed>) {
-       if(resource.data==null) {
-            showProgress(false)
-            errorText.visibility = View.VISIBLE
-            errorText.text =getString(R.string.error)
-        } else {
-            showProgress(false)
-            recyclerView.visibility = View.VISIBLE
-            val feed = resource.data as Feed
-            supportActionBar?.title = feed.title
-            val filterList = feed.rows!!.filter {  it.title!=null  }
-            feedAdapter.addItems(filterList)
-        }
         swipe_container.isRefreshing = false
-
         mIdlingRes.decrement()
-
-    }*/
-
+    }
+    
 
     override fun showProgress(boolean: Boolean) {
         if (boolean) {
