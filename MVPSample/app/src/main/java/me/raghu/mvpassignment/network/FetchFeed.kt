@@ -2,6 +2,7 @@ package me.raghu.mvpassignment.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import me.raghu.mvpassignment.models.Feed
+import me.raghu.mvpassignment.models.Result
 import retrofit2.Retrofit
 import okhttp3.OkHttpClient
 

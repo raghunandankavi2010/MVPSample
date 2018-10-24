@@ -5,7 +5,7 @@ import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.launch
-import me.raghu.mvpassignment.models.Resource
+import me.raghu.mvpassignment.models.Result
 import me.raghu.mvpassignment.network.FetchFeed
 import kotlin.coroutines.experimental.CoroutineContext
 
@@ -41,13 +41,12 @@ class FeedPresenterImpl: FeedMvp.Presenter, CoroutineScope {
                val response = fetchFeed.fetchFeed()
                 if(response.isSuccessful) {
                     val feed = response.body()
-                    feedView?.updateList(Resource.success(feed))
-                } else {
-                    feedView?.updateList(Resource.error("Something wrong",null))
+                    if (feed != null) {
+                        feedView?.updateList(Result.Success(feed))
+                    }
                 }
-
             } catch (e: Exception) {
-                feedView?.updateList(Resource.error(e.message.toString(),null))
+                feedView?.updateList(Result.Error(e))
             }
         }
 

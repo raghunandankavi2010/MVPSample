@@ -1,13 +1,14 @@
 package me.raghu.mvpassignment.presenter
 
-import me.raghu.mvpassignment.models.Resource
+import me.raghu.mvpassignment.models.Feed
+import me.raghu.mvpassignment.models.Result
 
 
 interface FeedMvp {
 
     interface View {
 
-        fun <T> updateList(feed: Resource<T>)
+        fun  updateList(feed: Result<Feed>)
 
         fun showProgress(boolean: Boolean)
     }

@@ -9,7 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import me.raghu.mvpassignment.models.Feed
-import me.raghu.mvpassignment.models.Resource
+import me.raghu.mvpassignment.models.Result
 import me.raghu.mvpassignment.presenter.FeedMvp
 import me.raghu.mvpassignment.presenter.FeedPresenterImpl
 
@@ -26,7 +26,27 @@ class FeedActivity : AppCompatActivity(),FeedMvp.View {
 
     private var mIdlingRes = CountingIdlingResource("FeedActivity")
 
-    override fun <T> updateList(resource:Resource<T>) {
+
+    override fun updateList(result: Result<Feed>) {
+        when (result) {
+            is Result.Success -> {
+                showProgress(false)
+                recyclerView.visibility = View.VISIBLE
+                val feed = result.data
+                supportActionBar?.title = feed.title
+                val filterList = feed.rows!!.filter {  it.title!=null  }
+                feedAdapter.addItems(filterList)
+            }
+            is Result.Error -> {
+                result.exception.printStackTrace()
+                showProgress(false)
+                errorText.visibility = View.VISIBLE
+                errorText.text = getString(R.string.error)
+            }
+        }
+    }
+
+/*    override fun <T> updateList(resource: Result<Feed>) {
        if(resource.data==null) {
             showProgress(false)
             errorText.visibility = View.VISIBLE
@@ -43,7 +63,7 @@ class FeedActivity : AppCompatActivity(),FeedMvp.View {
 
         mIdlingRes.decrement()
 
-    }
+    }*/
 
 
     override fun showProgress(boolean: Boolean) {
