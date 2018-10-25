@@ -1,54 +1,46 @@
 package me.raghu.mvpassignment.presenter
 
 import android.annotation.SuppressLint
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.launch
-import me.raghu.mvpassignment.models.Result
+import me.raghu.mvpassignment.CoroutineContextProvider
 import me.raghu.mvpassignment.network.FetchFeed
-import kotlin.coroutines.experimental.CoroutineContext
 
+class FeedPresenterImpl(var contextPool: CoroutineContextProvider,
+                        var feedView: FeedMvp.View,
+                        var fetchFeed:FetchFeed) : FeedMvp.Presenter {
 
-class FeedPresenterImpl: FeedMvp.Presenter, CoroutineScope {
-    private val job = Job()
+    private lateinit var job: Job
 
-    override val coroutineContext: CoroutineContext
-    get() = Dispatchers.Main + job
-
-    private val uiScope = CoroutineScope(coroutineContext)
-
-    private var feedView: FeedMvp.View? = null
-    private var fetchFeed:FetchFeed = FetchFeed
-
-    override fun attachView(view: FeedMvp.View) {
-        feedView = view
-
-    }
+    private var mView: FeedMvp.View? = feedView
 
     override fun detachView() {
-        feedView = null
+        mView = null
         job.cancel()
     }
-
-
 
     @SuppressLint("CheckResult")
     override fun fetchData() {
 
-        uiScope.launch {
+      job =  contextPool.uiScope.launch {
             try {
+                feedView.showProgress(true)
                val response = fetchFeed.fetchFeed()
                 if(response.isSuccessful) {
                     val feed = response.body()
                     if (feed != null) {
-                        feedView?.updateList(Result.Success(feed))
+                        feedView.showProgress(false)
+                        mView?.updateList(feed)
                     }
+                } else{
+                    feedView.showProgress(false)
+                    mView?.showError("Something went wrong!")
                 }
             } catch (e: Exception) {
-                feedView?.updateList(Result.Error(e))
+                e.printStackTrace()
+                feedView.showProgress(false)
+                mView?.showError("Something went wrong!")
             }
         }
-
     }
 }

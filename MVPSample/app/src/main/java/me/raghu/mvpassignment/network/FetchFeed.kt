@@ -2,17 +2,15 @@ package me.raghu.mvpassignment.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import me.raghu.mvpassignment.models.Feed
-import me.raghu.mvpassignment.models.Result
-import retrofit2.Retrofit
 import okhttp3.OkHttpClient
-
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
-import java.util.concurrent.TimeUnit
+import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 
-object FetchFeed {
+object FetchFeed: FetchFeedInterface {
 
     private var retrofit:Retrofit
 
@@ -38,6 +36,6 @@ object FetchFeed {
 
     }
 
-    suspend fun fetchFeed(): Response<Feed> = retrofit.create(Api::class.java).getData().await()
+    override suspend fun fetchFeed(): Response<Feed> = retrofit.create(Api::class.java).getData().await()
 
 }
