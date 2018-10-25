@@ -66,8 +66,6 @@ class FeedPresenterTest {
     @Test
     fun testError() = runBlockingSilent {
 
-        val feed = Feed()
-        feed.title = "About Canada"
         val json = ""
         val response = Response.error<Feed>(404, ResponseBody.create(MediaType.parse("application/json") ,json))
         Mockito.`when`(fetchFeed.fetchFeed()).thenReturn(response)
