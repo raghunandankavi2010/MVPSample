@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import me.raghu.mvpassignment.models.Feed
-import me.raghu.mvpassignment.models.Result
 import me.raghu.mvpassignment.network.FetchFeed
 import me.raghu.mvpassignment.presenter.FeedMvp
 import me.raghu.mvpassignment.presenter.FeedPresenterImpl

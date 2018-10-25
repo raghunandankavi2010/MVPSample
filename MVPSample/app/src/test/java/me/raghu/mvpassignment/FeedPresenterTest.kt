@@ -29,15 +29,7 @@ class FeedPresenterTest {
 
     private lateinit var presenterImpl: FeedPresenterImpl
 
-    private fun <T> any(): T {
-        Mockito.any<T>()
-        return uninitialized()
-    }
-
-    private fun <T> uninitialized(): T = null as T
-
-
-    fun <T> runBlockingSilent(context: CoroutineContext = EmptyCoroutineContext, block: suspend CoroutineScope.() -> T) {
+    private fun <T> runBlockingSilent(context: CoroutineContext = EmptyCoroutineContext, block: suspend CoroutineScope.() -> T) {
         runBlocking(context, block)
     }
 
