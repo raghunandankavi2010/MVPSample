@@ -1,7 +1,8 @@
 package me.raghu.mvpassignment
 
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.CoroutineScope
+
+import kotlinx.coroutines.runBlocking
 import me.raghu.mvpassignment.models.Feed
 import me.raghu.mvpassignment.network.FetchFeed
 import me.raghu.mvpassignment.presenter.FeedMvp
@@ -14,8 +15,8 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import retrofit2.Response
-import kotlin.coroutines.experimental.CoroutineContext
-import kotlin.coroutines.experimental.EmptyCoroutineContext
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 
 class FeedPresenterTest {

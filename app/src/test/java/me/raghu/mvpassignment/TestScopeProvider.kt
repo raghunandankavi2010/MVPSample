@@ -1,8 +1,9 @@
 package me.raghu.mvpassignment
 
-import kotlinx.coroutines.experimental.Job
-import kotlin.coroutines.experimental.CoroutineContext
-import kotlin.coroutines.experimental.EmptyCoroutineContext
+import kotlinx.coroutines.Job
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
+
 
 class TestScopeProvider : CoroutineContextProvider() {
     private val job = Job()
