@@ -41,9 +41,7 @@ class FeedPresenterTest {
 
     @Test
     fun testSuccess() = runBlockingSilent {
-
-        assertNotNull(feedView)
-        assertNotNull(fetchFeed)
+        
         val feed = Feed()
         feed.title = "About Canada"
         val response = Response.success(feed)
