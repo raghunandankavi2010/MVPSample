@@ -1,11 +1,10 @@
 package me.raghu.mvpassignment
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.runBlocking
 import me.raghu.mvpassignment.models.Feed
 import me.raghu.mvpassignment.network.FetchFeed
 import me.raghu.mvpassignment.presenter.FeedMvp
 import me.raghu.mvpassignment.presenter.FeedPresenterImpl
+import me.raghu.mvpassignment.util.runBlockingSilent
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.junit.Before
@@ -15,8 +14,6 @@ import org.mockito.Mockito
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 import retrofit2.Response
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 
 class FeedPresenterTest {
 
@@ -28,45 +25,48 @@ class FeedPresenterTest {
 
     private lateinit var presenterImpl: FeedPresenterImpl
 
-    private fun <T> runBlockingSilent(context: CoroutineContext = EmptyCoroutineContext, block: suspend CoroutineScope.() -> T) {
-        runBlocking(context, block)
-    }
+    private  val testScopeProvider = TestScopeProvider()
+
 
     @Before
     fun setUP() {
         MockitoAnnotations.initMocks(this)
-        val testScopeProvider = TestScopeProvider()
-        presenterImpl = FeedPresenterImpl(testScopeProvider, feedView,fetchFeed)
     }
 
-   @Test
-    fun testSuccess() = runBlockingSilent {
-        
+
+    @Test
+    fun testA() = runBlockingSilent {
+        System.out.println("Started Success")
         val feed = Feed()
         feed.title = "About Canada"
         val successResponse = Response.success(feed)
         doReturn(successResponse).`when`(fetchFeed).fetchFeed()
-        Mockito.`when`(fetchFeed.fetchFeed()).thenReturn(successResponse)
+        presenterImpl = FeedPresenterImpl(testScopeProvider, feedView,fetchFeed)
         presenterImpl.fetchData()
         val inOrder = Mockito.inOrder(feedView)
         inOrder.verify(feedView).showProgress(true)
+        Mockito.verify(fetchFeed).fetchFeed()
         inOrder.verify(feedView).showProgress(false)
-        Mockito.verify(feedView).updateList(successResponse.body()!!)
+        inOrder.verify(feedView).updateList(successResponse.body()!!)
+        System.out.println("Done")
 
     }
 
- /*   @Test
-    fun testError() = runBlockingSilent {
-
+   @Test
+    fun testB() = runBlockingSilent {
+        System.out.println("Started Error")
         val json = ""
         val failureResponse = Response.error<Feed>(404, ResponseBody.create(MediaType.parse("application/json") ,json))
         doReturn(failureResponse).`when`(fetchFeed).fetchFeed()
+        presenterImpl = FeedPresenterImpl(testScopeProvider, feedView,fetchFeed)
         presenterImpl.fetchData()
         val inOrder = Mockito.inOrder(feedView)
         inOrder.verify(feedView).showProgress(true)
+        Mockito.verify(fetchFeed).fetchFeed()
         inOrder.verify(feedView).showProgress(false)
-        Mockito.verify(feedView).showError("Something went wrong!")
+        inOrder.verify(feedView).showError("Something went wrong!")
+        System.out.println("Done")
 
     }
-*/
+
 }

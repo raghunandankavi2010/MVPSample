@@ -13,5 +13,5 @@ open class CoroutineContextProvider: CoroutineScope {
     get() = Dispatchers.Main + job
 
     open val uiScope: CoroutineScope by lazy {  CoroutineScope(coroutineContext) }
-    open val POOL: CoroutineContext by lazy { Dispatchers.Default }
+    open val POOL: CoroutineScope by lazy { CoroutineScope(Dispatchers.Default) }
 }
