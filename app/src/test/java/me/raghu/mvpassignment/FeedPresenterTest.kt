@@ -47,8 +47,9 @@ class FeedPresenterTest {
         val testScopeProvider = TestScopeProvider()
         presenterImpl = FeedPresenterImpl(testScopeProvider, feedView,fetchFeed)
         presenterImpl.fetchData()
-        Mockito.verify(feedView).showProgress(true)
-        Mockito.verify(feedView).showProgress(false)
+        val inOrder = Mockito.inOrder(feedView)
+        inOrder.verify(feedView).showProgress(true)
+        inOrder.verify(feedView).showProgress(false)
         Mockito.verify(feedView).updateList(response.body()!!)
 
     }
@@ -63,8 +64,9 @@ class FeedPresenterTest {
         val testScopeProvider = TestScopeProvider()
         presenterImpl = FeedPresenterImpl(testScopeProvider, feedView,fetchFeed)
         presenterImpl.fetchData()
-        Mockito.verify(feedView).showProgress(true)
-        Mockito.verify(feedView).showProgress(false)
+        val inOrder = Mockito.inOrder(feedView)
+        inOrder.verify(feedView).showProgress(true)
+        inOrder.verify(feedView).showProgress(false)
         Mockito.verify(feedView).showError("Something went wrong!")
 
     }
