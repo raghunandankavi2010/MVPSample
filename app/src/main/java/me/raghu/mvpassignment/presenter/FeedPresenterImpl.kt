@@ -1,8 +1,8 @@
 package me.raghu.mvpassignment.presenter
 
 import android.annotation.SuppressLint
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import me.raghu.mvpassignment.CoroutineContextProvider
 import me.raghu.mvpassignment.network.FetchFeed
 

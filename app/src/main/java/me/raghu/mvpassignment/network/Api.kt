@@ -1,8 +1,7 @@
 package me.raghu.mvpassignment.network
 
-import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.Deferred
 import me.raghu.mvpassignment.models.Feed
-import me.raghu.mvpassignment.models.Result
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
