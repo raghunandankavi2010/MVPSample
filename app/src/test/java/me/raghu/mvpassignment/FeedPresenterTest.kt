@@ -1,8 +1,6 @@
 package me.raghu.mvpassignment
 
-import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.CoroutineScope
-
 import kotlinx.coroutines.runBlocking
 import me.raghu.mvpassignment.models.Feed
 import me.raghu.mvpassignment.network.FetchFeed
