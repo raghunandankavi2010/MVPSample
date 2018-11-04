@@ -25,17 +25,17 @@ class FeedPresenterImpl(var contextPool: CoroutineContextProvider,
       job =  contextPool.uiScope.launch {
             try {
                 feedView.showProgress(true)
-               val response = fetchFeed.fetchFeed()
+                val response = fetchFeed.fetchFeed()
                 if(response.isSuccessful) {
-                    val feed = response.body()
-                    if (feed != null) {
-                        feedView.showProgress(false)
-                        mView?.updateList(feed)
-                    }
-                } else{
-                    feedView.showProgress(false)
-                    mView?.showError("Something went wrong!")
-                }
+                     val feed = response.body()
+                     if (feed != null) {
+                         feedView.showProgress(false)
+                         mView?.updateList(feed)
+                     }
+                 } else{
+                     feedView.showProgress(false)
+                     mView?.showError("Something went wrong!")
+                 }
             } catch (e: Exception) {
                 e.printStackTrace()
                 feedView.showProgress(false)

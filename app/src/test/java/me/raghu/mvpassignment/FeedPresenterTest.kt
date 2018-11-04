@@ -1,5 +1,6 @@
 package me.raghu.mvpassignment
 
+import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.CoroutineScope
 
 import kotlinx.coroutines.runBlocking
@@ -21,7 +22,6 @@ import kotlin.coroutines.EmptyCoroutineContext
 
 class FeedPresenterTest {
 
-
     @Mock
     private lateinit var feedView: FeedMvp.View
 
@@ -42,6 +42,8 @@ class FeedPresenterTest {
     @Test
     fun testSuccess() = runBlockingSilent {
 
+        assertNotNull(feedView)
+        assertNotNull(fetchFeed)
         val feed = Feed()
         feed.title = "About Canada"
         val response = Response.success(feed)

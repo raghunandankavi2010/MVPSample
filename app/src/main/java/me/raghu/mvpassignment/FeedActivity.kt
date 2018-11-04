@@ -84,7 +84,7 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
 
     private fun attachPresenter() {
 
-        presenter = FeedPresenterImpl(CoroutineContextProvider(), feedView = this, fetchFeed = FetchFeed)
+        presenter = FeedPresenterImpl(CoroutineContextProvider(), feedView = this, fetchFeed = FetchFeed())
         mIdlingRes.increment()
         presenter?.fetchData()
         showProgress(true)
