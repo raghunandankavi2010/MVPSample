@@ -35,7 +35,7 @@ class FeedPresenterTest {
 
 
     @Test
-    fun testA() = runBlockingSilent {
+    fun testForSuccess() = runBlockingSilent {
         System.out.println("Started Success")
         val feed = Feed()
         feed.title = "About Canada"
@@ -53,7 +53,7 @@ class FeedPresenterTest {
     }
 
    @Test
-    fun testB() = runBlockingSilent {
+    fun testForFailure() = runBlockingSilent {
         System.out.println("Started Error")
         val json = ""
         val failureResponse = Response.error<Feed>(404, ResponseBody.create(MediaType.parse("application/json") ,json))
