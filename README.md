@@ -3,7 +3,7 @@ Mobile app to show case MVP architecture pattern.
 
 Branch|Status
 ---|---
-master|[![CircleCI](https://circleci.com/gh/room-15/ChatSE/tree/master.svg?style=shield)](https://circleci.com/gh/raghunandankavi2010/MVPSampl/tree/master)
+master|[![CircleCI](https://circleci.com/gh/raghunandankavi2010/MVPSample/tree/master.svg?style=shield)](https://circleci.com/gh/raghunandankavi2010/MVPSample/tree/master)
 
 # ScreenShot
 
