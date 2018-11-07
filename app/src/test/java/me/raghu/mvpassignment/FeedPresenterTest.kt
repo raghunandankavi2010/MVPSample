@@ -39,7 +39,7 @@ class FeedPresenterTest {
 
     @Test
     fun testForSuccess() = runBlockingSilent {
-        System.out.println("Started Success")
+
         val feed = Feed()
         feed.title = "About Canada"
         val successResponse = Response.success(feed)
@@ -51,13 +51,12 @@ class FeedPresenterTest {
         Mockito.verify(fetchFeed).fetchFeed()
         inOrder.verify(feedView).showProgress(false)
         inOrder.verify(feedView).updateList(successResponse.body()!!)
-        System.out.println("Done")
-
+        
     }
 
    @Test
     fun testForFailure() = runBlockingSilent {
-        System.out.println("Started Error")
+
         val json = ""
         val failureResponse = Response.error<Feed>(404, ResponseBody.create(MediaType.parse("application/json") ,json))
         doReturn(failureResponse).`when`(fetchFeed).fetchFeed()
@@ -68,7 +67,6 @@ class FeedPresenterTest {
         Mockito.verify(fetchFeed).fetchFeed()
         inOrder.verify(feedView).showProgress(false)
         inOrder.verify(feedView).showError("Something went wrong!")
-        System.out.println("Done")
 
     }
 
