@@ -23,7 +23,7 @@ class FeedPresenterImpl(var contextPool: CoroutineContextProvider,
     override fun fetchData() {
 
       job =  contextPool.uiScope.launch {
-            try { System.out.println(Thread.currentThread().name)
+            try { 
                 feedView.showProgress(true)
                 val response = fetchFeed.fetchFeed()
                 if(response.isSuccessful) {
