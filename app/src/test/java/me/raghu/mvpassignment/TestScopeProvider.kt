@@ -1,16 +1,19 @@
 package me.raghu.mvpassignment
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Unconfined
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+
 
 
 class TestScopeProvider : CoroutineContextProvider() {
-    private val job = Job()
 
-    override val uiScope: CoroutineScope = CoroutineScope(EmptyCoroutineContext)
-    override val POOL: CoroutineScope = CoroutineScope(EmptyCoroutineContext)
+
+    @ExperimentalCoroutinesApi
+    override val uiScope: CoroutineScope =  CoroutineScope(Dispatchers.Unconfined)
+    @ExperimentalCoroutinesApi
+    override val POOL: CoroutineScope = CoroutineScope(Unconfined)
 
 
 }

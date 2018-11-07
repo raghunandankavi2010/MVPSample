@@ -25,7 +25,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    tasks.matching {it instanceof Test}.all {
+        testLogging.events = ["failed", "passed", "skipped"]
+    }
 }
 
 dependencies {
@@ -76,5 +78,4 @@ dependencies {
 
 }
 
-apply plugin: 'kotlin-android-extensions'
 

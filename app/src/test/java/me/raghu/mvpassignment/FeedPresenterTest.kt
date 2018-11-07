@@ -1,5 +1,6 @@
 package me.raghu.mvpassignment
 
+import kotlinx.coroutines.Job
 import me.raghu.mvpassignment.models.Feed
 import me.raghu.mvpassignment.network.FetchFeed
 import me.raghu.mvpassignment.presenter.FeedMvp
@@ -27,10 +28,12 @@ class FeedPresenterTest {
 
     private  val testScopeProvider = TestScopeProvider()
 
+    private lateinit var  job:Job
 
     @Before
     fun setUP() {
         MockitoAnnotations.initMocks(this)
+        job = Job()
     }
 
 
