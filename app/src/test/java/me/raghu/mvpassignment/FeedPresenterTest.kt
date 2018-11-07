@@ -51,7 +51,7 @@ class FeedPresenterTest {
         Mockito.verify(fetchFeed).fetchFeed()
         inOrder.verify(feedView).showProgress(false)
         inOrder.verify(feedView).updateList(successResponse.body()!!)
-        
+
     }
 
    @Test

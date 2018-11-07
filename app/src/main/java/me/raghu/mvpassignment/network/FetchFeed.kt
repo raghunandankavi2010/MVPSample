@@ -1,6 +1,6 @@
 package me.raghu.mvpassignment.network
 
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import me.raghu.mvpassignment.models.Feed
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
