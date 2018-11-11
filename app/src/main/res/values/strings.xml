@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MVPAssignment</string>
     <string name="error">Something went wrong!</string>
+    <string name="ok">Ok</string>
 </resources>

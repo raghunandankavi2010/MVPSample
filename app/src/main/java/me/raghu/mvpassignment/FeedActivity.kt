@@ -2,16 +2,21 @@ package me.raghu.mvpassignment
 
 
 import android.os.Bundle
-import android.support.test.espresso.idling.CountingIdlingResource
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
+import androidx.test.espresso.idling.CountingIdlingResource
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import me.raghu.mvpassignment.models.Feed
 import me.raghu.mvpassignment.network.FetchFeed
 import me.raghu.mvpassignment.presenter.FeedMvp
 import me.raghu.mvpassignment.presenter.FeedPresenterImpl
+import androidx.recyclerview.selection.StorageStrategy
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StableIdKeyProvider
+import android.widget.Toast
+import androidx.appcompat.view.ActionMode
 
 
 class FeedActivity : AppCompatActivity(), FeedMvp.View {
@@ -19,6 +24,8 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
 
     private var presenter: FeedMvp.Presenter? = null
     private lateinit var feedAdapter: FeedAdapter
+    private lateinit var tracker: SelectionTracker<Long>
+    private lateinit var actionMode: ActionMode
 
     fun getIdlingResourceInTest(): CountingIdlingResource {
         return mIdlingRes
@@ -64,6 +71,17 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
         recyclerView.layoutManager = LinearLayoutManager(this@FeedActivity)
         recyclerView.adapter = feedAdapter
 
+        tracker = SelectionTracker.Builder(
+                "selection-id",
+        recyclerView,
+         StableIdKeyProvider(recyclerView),
+         DetailsLookup(recyclerView),
+        StorageStrategy.createLongStorage()
+        ).build()
+
+        tracker.addObserver(SelectionObserver(this))
+        feedAdapter.setSelectionTracker(tracker)
+
         swipe_container.setOnRefreshListener {
             // does not do anything as there is no new api to refresh data
             /** Ideally
@@ -93,5 +111,26 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
     override fun onDestroy() {
         super.onDestroy()
         presenter?.detachView()
+    }
+
+    override fun onSupportActionModeStarted(actionMode: ActionMode) {
+        super.onSupportActionModeStarted(actionMode)
+        this.actionMode = actionMode
+    }
+
+   override fun onSupportActionModeFinished(mode: ActionMode) {
+        super.onSupportActionModeFinished(mode)
+        tracker.clearSelection()
+    }
+
+    fun showSelected() {
+        val selection = tracker.getSelection()
+        val selectedIds = ArrayList<Long>()
+
+        for (id in selection) {
+            selectedIds.add(id)
+        }
+        Toast.makeText(this, selectedIds.toString(), Toast.LENGTH_LONG).show()
+        actionMode.finish()
     }
 }

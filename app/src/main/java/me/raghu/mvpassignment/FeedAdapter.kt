@@ -1,16 +1,24 @@
 package me.raghu.mvpassignment
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.selection.SelectionTracker
 import kotlinx.android.synthetic.main.row.view.*
-import me.raghu.mvpassignment.FeedAdapter.Companion.TYPE_TEXT_IMAGE
 import me.raghu.mvpassignment.models.Row
+import android.view.MotionEvent
+import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails
+import androidx.recyclerview.selection.ItemDetailsLookup
+
+
+
 
 
 class FeedAdapter(private val context: Context, private val items : MutableList<Row> = ArrayList()) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private lateinit var tracker: SelectionTracker<Long>
 
     init {
         setHasStableIds(true)
@@ -28,10 +36,13 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
         notifyDataSetChanged()
     }
 
+    fun setSelectionTracker(tracker: SelectionTracker<Long>) {
+        this.tracker = tracker
+    }
     override fun getItemCount(): Int = items.size
 
 
-    override fun getItemId(position: Int): Long = items[position].title!!.hashCode().toLong()
+    override fun getItemId(position: Int): Long = position.toLong() // items[position].title!!.hashCode().toLong()
 
     override fun getItemViewType(position: Int): Int = if (items[position].imageHref != null) TYPE_TEXT_IMAGE else TYPE_TEXT
     
@@ -59,37 +70,47 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
             }
         }
     }
-}
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        fun bind(item: Row) {
+
+            if (tracker.isSelected(adapterPosition.toLong())) {
+                itemView.setBackgroundResource(android.R.color.holo_red_dark)
+            } else {
+                itemView.setBackgroundResource(android.R.color.transparent)
+            }
+            itemView.title.text = item.title
+            itemView.description.text = item.description
+
+            if (item.imageHref != null) {
+                GlideApp
+                        .with(itemView.context)
+                        .load(item.imageHref)
+                        .error(R.drawable.error)
+                        .into(itemView.imageView)
 
 
-class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            } else {
+                GlideApp
+                        .with(itemView.context).clear(itemView.imageView)
 
-    fun bind(item: Row) {
-
-        itemView.title.text = item.title
-        itemView.description.text = item.description
-
-        if (item.imageHref != null) {
-            GlideApp
-                    .with(itemView.context)
-                    .load(item.imageHref)
-                    .error(R.drawable.error)
-                    .into(itemView.imageView)
-
-
-        } else {
-            GlideApp
-                   .with(itemView.context).clear(itemView.imageView)
-
+            }
         }
     }
 
-}
+    inner class TextHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-class TextHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-    fun bind(item: Row) {
-        itemView.title.text = item.title
-        itemView.description.text = item.description
+        fun bind(item: Row) {
+            itemView.title.text = item.title
+            itemView.description.text = item.description
+            if (tracker.isSelected(adapterPosition.toLong())) {
+                itemView.setBackgroundResource(android.R.color.holo_red_dark)
+            } else {
+                itemView.setBackgroundResource(android.R.color.transparent)
+            }
+        }
     }
 }
+
+
+
