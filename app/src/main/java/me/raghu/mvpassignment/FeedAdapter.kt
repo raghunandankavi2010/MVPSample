@@ -8,12 +8,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.selection.SelectionTracker
 import kotlinx.android.synthetic.main.row.view.*
 import me.raghu.mvpassignment.models.Row
-import android.view.MotionEvent
-import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails
-import androidx.recyclerview.selection.ItemDetailsLookup
-
-
-
 
 
 class FeedAdapter(private val context: Context, private val items : MutableList<Row> = ArrayList()) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -42,7 +36,7 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
     override fun getItemCount(): Int = items.size
 
 
-    override fun getItemId(position: Int): Long = position.toLong() // items[position].title!!.hashCode().toLong()
+    override fun getItemId(position: Int): Long =  position.toLong()
 
     override fun getItemViewType(position: Int): Int = if (items[position].imageHref != null) TYPE_TEXT_IMAGE else TYPE_TEXT
     

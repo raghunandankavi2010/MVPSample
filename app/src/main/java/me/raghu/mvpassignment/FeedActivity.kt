@@ -71,7 +71,7 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
         recyclerView.layoutManager = LinearLayoutManager(this@FeedActivity)
         recyclerView.adapter = feedAdapter
 
-        tracker = SelectionTracker.Builder(
+        tracker = SelectionTracker.Builder<Long>(
                 "selection-id",
         recyclerView,
          StableIdKeyProvider(recyclerView),
@@ -93,6 +93,18 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
             feedAdapter.notifyDataSetChanged()
             mIdlingRes.increment()
             presenter?.fetchData()
+
+            tracker = SelectionTracker.Builder<Long>(
+                    "selection-id",
+                    recyclerView,
+                    StableIdKeyProvider(recyclerView),
+                    DetailsLookup(recyclerView),
+                    StorageStrategy.createLongStorage()
+            ).build()
+
+            tracker.addObserver(SelectionObserver(this))
+            feedAdapter.setSelectionTracker(tracker)
+
         }
 
 
@@ -124,7 +136,7 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
     }
 
     fun showSelected() {
-        val selection = tracker.getSelection()
+        val selection = tracker.selection
         val selectedIds = ArrayList<Long>()
 
         for (id in selection) {
