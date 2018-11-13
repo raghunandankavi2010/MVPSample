@@ -36,7 +36,7 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
     override fun getItemCount(): Int = items.size
 
 
-    override fun getItemId(position: Int): Long =  position.toLong()
+    override fun getItemId(position: Int): Long =  items[position].title.hashCode().toLong()//position.toLong()
 
     override fun getItemViewType(position: Int): Int = if (items[position].imageHref != null) TYPE_TEXT_IMAGE else TYPE_TEXT
     
@@ -68,9 +68,11 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
 
         fun bind(item: Row) {
 
-            if (tracker.isSelected(adapterPosition.toLong())) {
+            if (tracker.isSelected(item.title.hashCode().toLong())) {
+                itemView.isActivated = true
                 itemView.setBackgroundResource(android.R.color.holo_red_dark)
             } else {
+                itemView.isActivated = false
                 itemView.setBackgroundResource(android.R.color.transparent)
             }
             itemView.title.text = item.title
@@ -97,9 +99,11 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
         fun bind(item: Row) {
             itemView.title.text = item.title
             itemView.description.text = item.description
-            if (tracker.isSelected(adapterPosition.toLong())) {
+            if (tracker.isSelected(item.title.hashCode().toLong())) {
+                itemView.isActivated = true
                 itemView.setBackgroundResource(android.R.color.holo_red_dark)
             } else {
+                itemView.isActivated = true
                 itemView.setBackgroundResource(android.R.color.transparent)
             }
         }
