@@ -138,7 +138,7 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
     fun showSelected() {
         val selection = tracker.selection
         val selectedIds = ArrayList<Long>()
-        
+
         for (id in selection) {
             selectedIds.add(id)
         }
