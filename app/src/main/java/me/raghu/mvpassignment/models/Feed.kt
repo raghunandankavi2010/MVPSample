@@ -2,9 +2,12 @@ package me.raghu.mvpassignment.models
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-data class Feed( @SerializedName("title") @Expose var title: String = "",
-                 @SerializedName("rows") @Expose var rows: List<Row>? = null)
+@JsonClass(generateAdapter = true)
+data class Feed(@Json(name = "title") var title: String = "",
+                 @Json(name="rows") var rows: List<Row>? = null)
 
 
 

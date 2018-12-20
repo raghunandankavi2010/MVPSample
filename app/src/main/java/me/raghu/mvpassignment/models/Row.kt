@@ -1,14 +1,13 @@
 package me.raghu.mvpassignment.models
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 
-data class Row(@SerializedName("title")
-                @Expose
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
+data class Row(@Json(name="title")
                 var title: String? = null,
-                @SerializedName("description")
-                @Expose
+                @Json(name="description")
                 var description: String? = null,
-                @SerializedName("imageHref")
-                @Expose
+                @Json(name="imageHref")
                 var imageHref: String? = null)
