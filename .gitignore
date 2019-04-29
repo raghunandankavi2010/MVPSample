@@ -53,3 +53,5 @@ captures/
 google-services.json
 
 \.idea/misc\.xml
+
+\.idea/
