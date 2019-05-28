@@ -9,23 +9,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import me.raghu.mvpassignment.models.Feed
-import me.raghu.mvpassignment.network.FetchFeed
 import me.raghu.mvpassignment.presenter.FeedMvp
-import me.raghu.mvpassignment.presenter.FeedPresenterImpl
 import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StableIdKeyProvider
 import android.widget.Toast
 import androidx.appcompat.view.ActionMode
+import dagger.android.AndroidInjection
+import me.raghu.mvpassignment.presenter.FeedPresenterImpl
+import javax.inject.Inject
 
 
 class FeedActivity : AppCompatActivity(), FeedMvp.View {
 
-
-    private var presenter: FeedMvp.Presenter? = null
     private lateinit var feedAdapter: FeedAdapter
     private lateinit var tracker: SelectionTracker<Long>
     private lateinit var actionMode: ActionMode
+
+    @Inject
+    lateinit var presenter: FeedPresenterImpl
 
     fun getIdlingResourceInTest(): CountingIdlingResource {
         return mIdlingRes
@@ -63,6 +65,7 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         feedAdapter = FeedAdapter(this@FeedActivity)
@@ -114,7 +117,7 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
 
     private fun attachPresenter() {
 
-        presenter = FeedPresenterImpl(CoroutineContextProvider(), feedView = this, fetchFeed = FetchFeed)
+        presenter?.attach(this)
         mIdlingRes.increment()
         presenter?.fetchData()
         showProgress(true)

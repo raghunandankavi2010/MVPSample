@@ -77,12 +77,10 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
                 itemView.isActivated = false
                 itemView.setBackgroundResource(android.R.color.transparent)
             }
-            //itemView.title.text = item.title
             itemView.title.setTextFuture(PrecomputedTextCompat.getTextFuture(
                     item.title.toString(),
                     TextViewCompat.getTextMetricsParams(itemView.title),
                     /*optional custom executor*/ null))
-            itemView.description.text = item.description
             itemView.description.setTextFuture(PrecomputedTextCompat.getTextFuture(
                     item.description.toString(),
                     TextViewCompat.getTextMetricsParams(itemView.description),
