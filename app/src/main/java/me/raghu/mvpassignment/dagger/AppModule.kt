@@ -9,11 +9,9 @@ import retrofit2.Retrofit
 @Module(includes = arrayOf(CoroutineModule::class,NetworkModule::class))
 class AppModule {
 
-
     @Provides
     fun provideFetchFeed(retrofit: Retrofit): FetchFeed {
         return FetchFeed(retrofit = retrofit)
     }
-
 
 }

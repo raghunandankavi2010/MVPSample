@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import me.raghu.mvpassignment.FeedActivity
 
+@Suppress("unused")
 @Module
 abstract class ActivityBuilder {
 

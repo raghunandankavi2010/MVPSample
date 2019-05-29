@@ -1,5 +1,6 @@
 package me.raghu.mvpassignment.dagger
 
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 
@@ -10,10 +11,13 @@ import me.raghu.mvpassignment.presenter.FeedMvp
 import me.raghu.mvpassignment.presenter.FeedPresenterImpl
 
 @Module
-class FeedActivityModule {
+abstract class FeedActivityModule {
 
 
-    @Provides
+    @Binds
+    abstract fun provideHomePresenter(presenter: FeedPresenterImpl): FeedMvp.Presenter
+
+  /*  @Provides
     @ActivityScope
     internal fun provideFeedView(feedActivity: FeedActivity): FeedMvp.View {
         return feedActivity
@@ -23,5 +27,5 @@ class FeedActivityModule {
     @ActivityScope
     internal fun provideMainPresenter(coroutineContextProvider: CoroutineContextProvider,fetchFeed: FetchFeed): FeedMvp.Presenter {
         return FeedPresenterImpl(coroutineContextProvider,fetchFeed)
-    }
+    }*/
 }

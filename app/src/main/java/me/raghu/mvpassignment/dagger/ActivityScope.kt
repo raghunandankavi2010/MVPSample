@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy
 import javax.inject.Scope
 
 /**
- * Created by garimajain on 05/03/17.
+ * Custom activity scope
  */
 @Scope
 @Documented
