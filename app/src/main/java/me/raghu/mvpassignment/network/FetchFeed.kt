@@ -37,6 +37,6 @@ constructor(val retrofit: Retrofit) {
 //
 //    }
 
-     suspend fun fetchFeed(): Response<Feed> = retrofit.create(Api::class.java).getData().await()
+     suspend fun fetchFeed(): Response<Feed> = retrofit.create(Api::class.java).getData()
 
 }

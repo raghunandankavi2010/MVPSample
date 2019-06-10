@@ -11,5 +11,5 @@ interface Api {
 
     @Headers("Content-Type: application/json")
     @GET("s/2iodh4vg0eortkl/facts.json")
-    fun getData(): Deferred<Response<Feed>>
+    suspend fun getData(): Response<Feed>
 }
