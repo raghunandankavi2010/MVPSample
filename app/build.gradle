@@ -48,7 +48,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
 
     //constraint layout
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
 
     // https://mvnrepository.com/artifact/androidx.core/core
     implementation group: 'androidx.core', name: 'core', version: '1.0.2'
