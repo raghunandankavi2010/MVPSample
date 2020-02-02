@@ -2,20 +2,20 @@ package me.raghu.mvpassignment
 
 
 import android.os.Bundle
-import androidx.test.espresso.idling.CountingIdlingResource
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ActionMode
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StableIdKeyProvider
+import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.view.View
+import androidx.test.espresso.idling.CountingIdlingResource
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import me.raghu.mvpassignment.models.Feed
 import me.raghu.mvpassignment.presenter.FeedMvp
-import androidx.recyclerview.selection.StorageStrategy
-import androidx.recyclerview.selection.SelectionTracker
-import androidx.recyclerview.selection.StableIdKeyProvider
-import android.widget.Toast
-import androidx.appcompat.view.ActionMode
-import dagger.android.AndroidInjection
 import me.raghu.mvpassignment.presenter.FeedPresenterImpl
 import javax.inject.Inject
 
@@ -95,7 +95,7 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
             feedAdapter.getItems().clear()
             feedAdapter.notifyDataSetChanged()
             mIdlingRes.increment()
-            presenter?.fetchData()
+            presenter.fetchData()
 
             tracker = SelectionTracker.Builder<Long>(
                     "selection-id",
@@ -117,15 +117,15 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
 
     private fun attachPresenter() {
 
-        presenter?.attach(this)
+        presenter.attach(this)
         mIdlingRes.increment()
-        presenter?.fetchData()
+        presenter.fetchData()
         showProgress(true)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter?.detachView()
+        presenter.detachView()
     }
 
     override fun onSupportActionModeStarted(actionMode: ActionMode) {
