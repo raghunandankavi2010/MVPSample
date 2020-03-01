@@ -2,6 +2,7 @@ package me.raghu.mvpassignment
 
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +26,7 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
     private lateinit var feedAdapter: FeedAdapter
     private lateinit var tracker: SelectionTracker<Long>
     private lateinit var actionMode: ActionMode
+    private val BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout"
 
     @Inject
     lateinit var presenter: FeedPresenterImpl
@@ -35,13 +37,15 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
 
     private var mIdlingRes = CountingIdlingResource("FeedActivity")
 
+    private var savedRecyclerLayoutState: Parcelable? = null
+
 
     override fun updateList(feed: Feed) {
         recyclerView.visibility = View.VISIBLE
         supportActionBar?.title = feed.title
         val filterList = feed.rows!!.filter { it.title != null }
         feedAdapter.addItems(filterList)
-
+        recyclerView.layoutManager?.onRestoreInstanceState(savedRecyclerLayoutState)
         swipe_container.isRefreshing = false
         mIdlingRes.decrement()
     }
@@ -68,6 +72,9 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        if(savedInstanceState!=null) {
+            savedRecyclerLayoutState = savedInstanceState.getParcelable<Parcelable>(BUNDLE_RECYCLER_LAYOUT)
+        }
         feedAdapter = FeedAdapter(this@FeedActivity)
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(DividerItemDecoration(this@FeedActivity, 1))
@@ -150,4 +157,10 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
         Toast.makeText(this, selectedIds.toString(), Toast.LENGTH_LONG).show()
         actionMode.finish()
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, recyclerView.layoutManager?.onSaveInstanceState())
+    }
+
 }
