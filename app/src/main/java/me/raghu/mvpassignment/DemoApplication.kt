@@ -1,16 +1,16 @@
 package me.raghu.mvpassignment
 
-import android.app.Activity
 import android.app.Application
+import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import dagger.android.HasAndroidInjector
 import me.raghu.mvpassignment.dagger.DaggerAppComponent
 import javax.inject.Inject
 
-class DemoApplication : Application(), HasActivityInjector {
+class DemoApplication : Application(), HasAndroidInjector {
 
     @Inject
-    lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     override fun onCreate() {
         super.onCreate()
@@ -19,10 +19,9 @@ class DemoApplication : Application(), HasActivityInjector {
                 .application(this)
                 .build()
                 .inject(this)
-
     }
 
-    override fun activityInjector(): DispatchingAndroidInjector<Activity>? {
-        return activityDispatchingAndroidInjector
+    override fun androidInjector(): AndroidInjector<Any> {
+        return dispatchingAndroidInjector
     }
 }
