@@ -31,7 +31,7 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
 
     fun addItems(rowList: List<Row>){
         items.addAll(rowList)
-        notifyDataSetChanged()
+        notifyItemRangeChanged(itemCount,rowList.size)
     }
 
     fun setSelectionTracker(tracker: SelectionTracker<Long>) {

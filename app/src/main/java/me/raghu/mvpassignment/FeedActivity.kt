@@ -27,6 +27,7 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
     private lateinit var tracker: SelectionTracker<Long>
     private lateinit var actionMode: ActionMode
     private val BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout"
+    private lateinit var linearLayoutManager: LinearLayoutManager
 
     @Inject
     lateinit var presenter: FeedPresenterImpl
@@ -45,7 +46,11 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
         supportActionBar?.title = feed.title
         val filterList = feed.rows!!.filter { it.title != null }
         feedAdapter.addItems(filterList)
-        recyclerView.layoutManager?.onRestoreInstanceState(savedRecyclerLayoutState)
+        if(swipe_container.isRefreshing){
+           recyclerView.smoothScrollToPosition(0)
+        }else {
+            linearLayoutManager.onRestoreInstanceState(savedRecyclerLayoutState)
+        }
         swipe_container.isRefreshing = false
         mIdlingRes.decrement()
     }
@@ -72,13 +77,12 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if(savedInstanceState!=null) {
-            savedRecyclerLayoutState = savedInstanceState.getParcelable<Parcelable>(BUNDLE_RECYCLER_LAYOUT)
-        }
+        savedRecyclerLayoutState = savedInstanceState?.getParcelable<Parcelable>(BUNDLE_RECYCLER_LAYOUT)
         feedAdapter = FeedAdapter(this@FeedActivity)
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(DividerItemDecoration(this@FeedActivity, 1))
-        recyclerView.layoutManager = LinearLayoutManager(this@FeedActivity)
+        linearLayoutManager = LinearLayoutManager(this@FeedActivity)
+        recyclerView.layoutManager =  linearLayoutManager
         recyclerView.adapter = feedAdapter
 
         tracker = SelectionTracker.Builder<Long>(
@@ -93,6 +97,7 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
         feedAdapter.setSelectionTracker(tracker)
 
         swipe_container.setOnRefreshListener {
+
             mIdlingRes.increment()
             presenter.fetchData()
 
@@ -150,7 +155,8 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, recyclerView.layoutManager?.onSaveInstanceState())
+        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT,linearLayoutManager.onSaveInstanceState())
+
     }
 
 }
