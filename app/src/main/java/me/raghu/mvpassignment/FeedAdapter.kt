@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import kotlinx.android.synthetic.main.row.view.*
 import me.raghu.mvpassignment.models.Row
 
 
-class FeedAdapter(private val context: Context, private val items : MutableList<Row> = ArrayList()) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FeedAdapter(private val context: Context, private val items : MutableList<Row> = ArrayList()): ListAdapter<Row, RecyclerView.ViewHolder>(FeedDiffCallback) {
 
     private lateinit var tracker: SelectionTracker<Long>
 
@@ -118,5 +120,14 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
     }
 }
 
+private object FeedDiffCallback : DiffUtil.ItemCallback<Row>() {
+    override fun areItemsTheSame(oldItem: Row, newItem: Row): Boolean {
+        return oldItem.title == newItem.title
+    }
+
+    override fun areContentsTheSame(oldItem: Row, newItem: Row): Boolean {
+        return oldItem == newItem
+    }
+}
 
 

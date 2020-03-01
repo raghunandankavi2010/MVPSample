@@ -93,16 +93,6 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
         feedAdapter.setSelectionTracker(tracker)
 
         swipe_container.setOnRefreshListener {
-            // does not do anything as there is no new data to refresh data
-            // need to add new items when there is new data ideally
-            // in prod do not clear the items
-            /** Ideally
-             * mIdlingRes.increment()
-             * presenter?.fetchData()
-             * update view and data
-             */
-            feedAdapter.getItems().clear()
-            feedAdapter.notifyDataSetChanged()
             mIdlingRes.increment()
             presenter.fetchData()
 
