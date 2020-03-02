@@ -46,9 +46,7 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
         supportActionBar?.title = feed.title
         val filterList = feed.rows!!.filter { it.title != null }
         feedAdapter.addItems(filterList)
-        if(swipe_container.isRefreshing){
-           recyclerView.smoothScrollToPosition(0)
-        }else {
+        if(!swipe_container.isRefreshing){
             linearLayoutManager.onRestoreInstanceState(savedRecyclerLayoutState)
         }
         swipe_container.isRefreshing = false
