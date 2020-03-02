@@ -34,7 +34,7 @@ public class FeedActivityTest {
     @Test
     public void testIfRecyclerViewIsVisible() {
 
-        CountingIdlingResource componentIdlingResource =  mActivityRule.getActivity().getIdlingResourceInTest();
+        CountingIdlingResource componentIdlingResource = mActivityRule.getActivity().getIdlingResourceInTest();
         IdlingRegistry.getInstance().register(componentIdlingResource);
 
         onView(withId(R.id.recyclerView))
@@ -51,12 +51,12 @@ public class FeedActivityTest {
     }
 
     /**
-     *  Disable Wifi/mobile data and test if error text is visible
+     * Disable Wifi/mobile data and test if error text is visible
      */
     @Test
     public void testIfErrorTextISVisible() {
 
-        CountingIdlingResource componentIdlingResource =  mActivityRule.getActivity().getIdlingResourceInTest();
+        CountingIdlingResource componentIdlingResource = mActivityRule.getActivity().getIdlingResourceInTest();
         IdlingRegistry.getInstance().register(componentIdlingResource);
 
         onView(withId(R.id.progressBar))
@@ -66,7 +66,7 @@ public class FeedActivityTest {
         onView(withId(R.id.errorText))
                 .check(matches(isDisplayed()));
         onView(withId(R.id.errorText))
-               .check(matches(withText(containsString(mActivityRule.getActivity().getResources().getString(R.string.error)))));
+                .check(matches(withText(containsString(mActivityRule.getActivity().getResources().getString(R.string.error)))));
 
         IdlingRegistry.getInstance().unregister(componentIdlingResource);
 
