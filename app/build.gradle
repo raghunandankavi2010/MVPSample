@@ -100,6 +100,7 @@ dependencies {
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     testImplementation "org.hamcrest:hamcrest-all:$rootProject.ext.hamcrestVersion"
     testImplementation "org.mockito:mockito-core:$rootProject.ext.mockitoVersion"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 }
 
 
