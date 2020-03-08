@@ -92,7 +92,7 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
                 GlideApp
                         .with(itemView.context)
                         .load(item.imageHref)
-                        .error(R.drawable.error)
+                        .placeholder(R.drawable.error)
                         .into(itemView.imageView)
 
 
