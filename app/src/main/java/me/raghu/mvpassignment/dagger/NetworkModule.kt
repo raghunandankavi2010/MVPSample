@@ -5,6 +5,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
+import me.raghu.mvpassignment.util.DefaultIfNullFactory
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -29,7 +30,12 @@ class NetworkModule {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build()
 
-        val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+        //val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+
+        val moshi = Moshi.Builder()
+                .add(DefaultIfNullFactory())
+                .add(KotlinJsonAdapterFactory())
+                .build()
 
        return Retrofit.Builder()
                 .baseUrl("https://dl.dropboxusercontent.com/")
