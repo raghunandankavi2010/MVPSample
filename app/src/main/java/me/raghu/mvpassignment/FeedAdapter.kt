@@ -88,7 +88,7 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
                     TextViewCompat.getTextMetricsParams(itemView.description),
                     /*optional custom executor*/ null))
 
-            if (item.imageHref != null) {
+            if (item.imageHref.isNotEmpty()) {
                 GlideApp
                         .with(itemView.context)
                         .load(item.imageHref)

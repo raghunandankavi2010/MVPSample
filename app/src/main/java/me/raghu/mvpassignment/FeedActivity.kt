@@ -44,7 +44,7 @@ class FeedActivity : AppCompatActivity(), FeedMvp.View {
     override fun updateList(feed: Feed) {
         recyclerView.visibility = View.VISIBLE
         supportActionBar?.title = feed.title
-        val filterList = feed.rows!!.filter { it.title != null }
+        val filterList = feed.rows!!.filter { it.title.isNotEmpty() }
         feedAdapter.addItems(filterList)
         if(!swipe_container.isRefreshing){
             linearLayoutManager.onRestoreInstanceState(savedRecyclerLayoutState)
