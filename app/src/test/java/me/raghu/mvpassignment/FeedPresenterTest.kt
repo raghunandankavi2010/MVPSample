@@ -5,8 +5,10 @@ import me.raghu.mvpassignment.models.Feed
 import me.raghu.mvpassignment.network.FetchFeed
 import me.raghu.mvpassignment.presenter.FeedMvp
 import me.raghu.mvpassignment.presenter.FeedPresenterImpl
+import me.raghu.mvpassignment.util.FeedCache
 import me.raghu.mvpassignment.util.runBlockingSilent
-import okhttp3.MediaType
+import okhttp3.ResponseBody.Companion.toResponseBody
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
 import org.junit.Before
 import org.junit.Test
@@ -24,6 +26,9 @@ class FeedPresenterTest {
     @Mock
     private lateinit var fetchFeed: FetchFeed
 
+
+    private lateinit var feedCache: FeedCache
+
     private lateinit var presenterImpl: FeedPresenterImpl
 
     private  val testScopeProvider = TestScopeProvider()
@@ -33,6 +38,7 @@ class FeedPresenterTest {
     @Before
     fun setUP() {
         MockitoAnnotations.initMocks(this)
+        feedCache = FeedCache()
         job = Job()
     }
 
@@ -44,7 +50,7 @@ class FeedPresenterTest {
         feed.title = "About Canada"
         val successResponse = Response.success(feed)
         doReturn(successResponse).`when`(fetchFeed).fetchFeed()
-        presenterImpl = FeedPresenterImpl(testScopeProvider,fetchFeed)
+        presenterImpl = FeedPresenterImpl(testScopeProvider,fetchFeed,feedCache)
         presenterImpl.attach(feedView)
         presenterImpl.fetchData()
         val inOrder = inOrder(feedView)
@@ -59,9 +65,9 @@ class FeedPresenterTest {
     fun testForFailure() = runBlockingSilent {
 
         val json = ""
-        val failureResponse = Response.error<Feed>(404, ResponseBody.create(MediaType.parse("application/json") ,json))
+        val failureResponse = Response.error<Feed>(404, json.toResponseBody("application/json".toMediaTypeOrNull()))
         doReturn(failureResponse).`when`(fetchFeed).fetchFeed()
-        presenterImpl = FeedPresenterImpl(testScopeProvider,fetchFeed)
+        presenterImpl = FeedPresenterImpl(testScopeProvider,fetchFeed,feedCache)
         presenterImpl.attach(feedView)
         presenterImpl.fetchData()
         val inOrder = inOrder(feedView)

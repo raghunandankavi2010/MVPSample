@@ -29,8 +29,8 @@ class FeedPresenterImpl @Inject constructor(var contextPool: CoroutineContextPro
 
     @SuppressLint("CheckResult")
     override fun fetchData() {
-
         job = contextPool.uiScope.launch {
+            mView?.showProgress(true)
             val feedCached = feedCache.lru.get("feed")
             if (feedCached != null) {
                 mView?.showProgress(false)
