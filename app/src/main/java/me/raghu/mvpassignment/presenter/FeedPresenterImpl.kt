@@ -27,6 +27,8 @@ class FeedPresenterImpl @Inject constructor(var contextPool: CoroutineContextPro
         job.cancel()
     }
 
+    @ExperimentalCoroutinesApi
+    @FlowPreview
     @SuppressLint("CheckResult")
     override fun fetchData() {
         job = contextPool.uiScope.launch {
