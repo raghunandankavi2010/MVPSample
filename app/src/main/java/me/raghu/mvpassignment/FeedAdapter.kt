@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.row.view.*
 import me.raghu.mvpassignment.models.Row
 
 
-class FeedAdapter(private val context: Context, private val items : MutableList<Row> = ArrayList()): ListAdapter<Row, RecyclerView.ViewHolder>(FeedDiffCallback) {
+class FeedAdapter(private val context: Context, private val items : MutableList<Row> = mutableListOf()): ListAdapter<Row, RecyclerView.ViewHolder>(FeedDiffCallback) {
 
     private lateinit var tracker: SelectionTracker<Long>
 
@@ -26,8 +26,6 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
         const val TYPE_TEXT = 0
         const val TYPE_TEXT_IMAGE = 1
     }
-
-    fun getItems():MutableList<Row> = items
 
     fun addItems(rowList: List<Row>){
         items.addAll(rowList)
@@ -42,7 +40,7 @@ class FeedAdapter(private val context: Context, private val items : MutableList<
 
     override fun getItemId(position: Int): Long =  items[position].title.hashCode().toLong()//position.toLong()
 
-    override fun getItemViewType(position: Int): Int = if (items[position].imageHref != null) TYPE_TEXT_IMAGE else TYPE_TEXT
+    override fun getItemViewType(position: Int): Int = if (items[position].imageHref.isNotEmpty()) TYPE_TEXT_IMAGE else TYPE_TEXT
     
     // Inflates the item views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
